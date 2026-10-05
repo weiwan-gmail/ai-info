@@ -42,7 +42,7 @@ export function MatrixLab() {
 
 export function SoftmaxLab() {
   const [logits, setLogits] = useState([1.2, 0.4, -0.6]);
-  const labels = ["正常", "过流", "缺相"];
+  const labels = ["晴", "阴", "雨"];
   const exps = logits.map((value) => Math.exp(value));
   const sum = exps.reduce((total, value) => total + value, 0);
   return (
