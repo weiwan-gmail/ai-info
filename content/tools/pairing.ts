@@ -12,7 +12,7 @@ export const pairingChapter: ToolChapter = {
   blurb: "模型、代理和技能是三层，可以交错。",
   updated: "2026-10-05",
   blocks: [
-    h2("上一类工具卡在哪"),
+    h2("出厂搭配把模型和客户端焊在一起"),
     p("出厂搭配让人以为 Claude Code 只能用 Claude，DeepSeek 只能打开 DeepSeek 的网页。于是换一个任务就要换一整套习惯，技能和仓库说明也跟着丢。"),
     h2("它分成哪几层"),
     p("Provider 负责推理：下一个词、工具调用的参数、对长材料的阅读。Agent 负责循环：读仓库、改文件、跑命令、必要时看屏幕。Skill 和 MCP 挂在 Agent 上。换 Provider，循环和技能还在。换 Agent，同一把密钥可以接到另一个认这套协议的客户端。"),

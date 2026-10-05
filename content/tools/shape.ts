@@ -10,6 +10,7 @@ export function tool(input: {
   blurb: string;
   role: ToolRole;
   kicker: string;
+  opening: string;
   stuck: string;
   layers: string;
   task: string;
@@ -32,7 +33,7 @@ export function tool(input: {
     kicker: input.kicker,
     updated: input.updated ?? "2026-10-05",
     blocks: [
-      h2("上一类工具卡在哪"),
+      h2(input.opening),
       p(input.stuck),
       h2("它分成哪几层"),
       p(input.layers),
