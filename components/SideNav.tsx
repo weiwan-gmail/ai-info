@@ -11,16 +11,16 @@ export function SideNav({ items, current, title }: { items: NavItem[]; current: 
     else groups.push({ name, items: [item] });
   }
   const list = (
-    <div className="space-y-4">
+    <div className="space-y-3">
       {groups.map((group) => (
         <div key={group.name || "flat"}>
-          {group.name ? <p className="mb-1 font-mono text-[11px] tracking-widest text-ink/45">{group.name}</p> : null}
-          <ul className="space-y-1">
+          {group.name ? <p className="mb-0.5 font-mono text-[10px] tracking-widest text-ink/45">{group.name}</p> : null}
+          <ul>
             {group.items.map((item) => {
               const active = item.href === current;
               return (
                 <li key={item.href}>
-                  <Link href={item.href} className={`block rounded-lg px-2 py-1 text-sm ${active ? "bg-ink text-paper" : "text-ink/75 hover:bg-panel"}`}>
+                  <Link href={item.href} className={`block rounded-md px-2 py-0.5 text-[13px] leading-5 ${active ? "bg-ink text-paper" : "text-ink/75 hover:bg-panel"}`}>
                     {item.label}
                   </Link>
                 </li>
@@ -32,15 +32,9 @@ export function SideNav({ items, current, title }: { items: NavItem[]; current: 
     </div>
   );
   return (
-    <aside>
-      <details className="mb-6 rounded-xl border border-line bg-sand md:hidden">
-        <summary className="cursor-pointer px-4 py-3 text-sm">{title}</summary>
-        <div className="px-3 pb-3">{list}</div>
-      </details>
-      <div className="sticky top-20 hidden max-h-[calc(100vh-6rem)] overflow-auto md:block">
-        <p className="mb-3 font-mono text-[11px] tracking-widest text-copper">{title}</p>
-        {list}
-      </div>
+    <aside className="z-30 max-h-[70vh] overflow-auto rounded-2xl border border-line bg-paper/95 p-3 md:sticky md:top-16 md:max-h-[calc(100vh-4.5rem)]">
+      <p className="mb-3 font-mono text-[11px] tracking-widest text-copper">{title}</p>
+      {list}
     </aside>
   );
 }

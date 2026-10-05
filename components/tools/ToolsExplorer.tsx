@@ -41,46 +41,40 @@ export function ToolsExplorer() {
           {mode === "pairs" ? "回到全图" : "只看搭配"}
         </Link>
       </div>
-      <MindMap groups={groups} chapters={toolChapters} pairs={pairs} focus={focus} mode={mode} highlightGroups={highlight} />
-      <div className="grid gap-6 lg:grid-cols-[1fr_16rem]">
-        <div className="rounded-2xl border border-line p-4">
-          <p className="font-mono text-[11px] tracking-widest text-copper">文字树</p>
-          <div className="mt-3 columns-1 gap-8 sm:columns-2">
-            {groups.map((group) => (
-              <section key={group.id} className="mb-4 break-inside-avoid">
-                <a href={`/tools?focus=${group.id}`} className="font-medium hover:text-copper">
-                  {group.title}
-                </a>
-                <ul className="mt-1 space-y-1">
-                  {toolChapters
-                    .filter((chapter) => chapter.group === group.id)
-                    .map((chapter) => (
-                      <li key={chapter.slug}>
-                        <Link href={`/tools/${chapter.slug}`} className="text-sm text-ink/75 hover:text-copper">
-                          {chapter.title}
-                        </Link>
-                      </li>
-                    ))}
-                </ul>
-              </section>
-            ))}
-          </div>
-        </div>
-        <aside className="rounded-2xl border border-line p-4">
-          <p className="font-mono text-[11px] tracking-widest text-copper">最近更新</p>
-          <ul className="mt-3 space-y-3">
+      <div className="rounded-2xl border border-line p-4">
+        <div className="flex flex-wrap items-baseline justify-between gap-3">
+          <p className="font-mono text-[11px] tracking-widest text-copper">工具列表</p>
+          <p className="text-xs text-ink/50">
+            最近写入{" "}
             {recent.map((chapter) => (
-              <li key={chapter.slug}>
-                <Link href={`/tools/${chapter.slug}`} className="text-sm hover:text-copper">
-                  {chapter.title}
-                </Link>
-                <p className="font-mono text-[11px] text-ink/45">{chapter.updated}</p>
-              </li>
+              <Link key={chapter.slug} href={`/tools/${chapter.slug}`} className="ml-2 text-ink/70 hover:text-copper">
+                {chapter.title}
+              </Link>
             ))}
-          </ul>
-          <p className="mt-4 text-xs leading-5 text-ink/55">新的一章是注册表里的一个节点。新的搭配只加一条虚线。改旧章时改日期，这里会跟着变。</p>
-        </aside>
+          </p>
+        </div>
+        <div className="mt-3 grid grid-cols-2 gap-x-4 gap-y-3 sm:grid-cols-4 xl:grid-cols-7">
+          {groups.map((group) => (
+            <section key={group.id}>
+              <a href={`/tools?focus=${group.id}`} className="text-sm font-medium hover:text-copper">
+                {group.title}
+              </a>
+              <ul className="mt-1 space-y-0.5">
+                {toolChapters
+                  .filter((chapter) => chapter.group === group.id)
+                  .map((chapter) => (
+                    <li key={chapter.slug}>
+                      <Link href={`/tools/${chapter.slug}`} className="text-sm text-ink/75 hover:text-copper">
+                        {chapter.title}
+                      </Link>
+                    </li>
+                  ))}
+              </ul>
+            </section>
+          ))}
+        </div>
       </div>
+      <MindMap groups={groups} chapters={toolChapters} pairs={pairs} focus={focus} mode={mode} highlightGroups={highlight} />
     </div>
   );
 }

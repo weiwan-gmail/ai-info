@@ -25,7 +25,7 @@ export default async function ToolChapterPage({ params }: { params: Promise<{ sl
   const next = toolChapters[index + 1];
   const groupTitle = groups.find((group) => group.id === chapter.group)?.title ?? "";
   return (
-    <main className="mx-auto grid max-w-6xl gap-8 px-5 py-10 md:grid-cols-[220px_1fr]">
+    <main className="mx-auto grid max-w-[92rem] items-start gap-6 px-4 py-6 md:grid-cols-[13.5rem_minmax(0,1fr)]">
       <HashScroll />
       <SideNav
         title="工具导图"
