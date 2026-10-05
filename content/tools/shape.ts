@@ -16,6 +16,7 @@ export function tool(input: {
   task: string;
   model: string;
   data: string;
+  beside: string;
   neighbor: string;
   switchWhen: string;
   widgets?: Block[];
@@ -44,7 +45,7 @@ export function tool(input: {
       p(input.model),
       h2("数据留在哪"),
       p(input.data),
-      h2("和邻章差在哪"),
+      h2(input.beside),
       p(input.neighbor),
       h2("什么时候该换"),
       p(input.switchWhen),
