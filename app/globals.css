@@ -1,0 +1,46 @@
+@import "tailwindcss";
+
+@theme {
+  --font-serif: "Noto Serif SC", "Songti SC", "Source Han Serif SC", Palatino, serif;
+  --font-sans: "Noto Sans SC", "Noto Sans CJK SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-mono: "IBM Plex Mono", "Source Code Pro", ui-monospace, monospace;
+  --color-paper: #f3efe4;
+  --color-ink: #1a1714;
+  --color-copper: #9a4e24;
+  --color-brass: #8c6a32;
+  --color-line: #e0d6c4;
+  --color-panel: #ebe3d4;
+  --color-night: #14110e;
+  --color-sand: #f7f3ea;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: #e7c7a4;
+}
+
+.prose-lab p {
+  margin-top: 1rem;
+}
+
+.prose-lab h2 {
+  margin-top: 2.4rem;
+  font-family: var(--font-serif);
+  font-size: 1.55rem;
+  font-weight: 650;
+  letter-spacing: -0.02em;
+}
+
+.katex {
+  font-size: 1.05em;
+}
