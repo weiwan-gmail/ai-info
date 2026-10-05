@@ -121,12 +121,12 @@ const heads = {
 };
 
 export function AttentionLab() {
-  const tokens = ["上管", "发热", "它", "关断", "续流", "二极管"];
+  const tokens = ["经理", "离开", "他", "接手", "会议", "记录"];
   const [head, setHead] = useState<keyof typeof heads>("referent");
   const [selected, setSelected] = useState(2);
   const weights = heads[head];
   return (
-    <LabFrame title="它在看谁" hint="点一个词，再换一个头" footer={<p>指代头把「它」拉向上管。动作头把权重分给「关断」和「续流」。一个头忙不过来，所以有多头。</p>}>
+    <LabFrame title="他在看谁" hint="点一个词，再换一个头" footer={<p>指代头把「他」拉向经理。动作头把权重分给「离开」和「接手」。一个头忙不过来，所以有多头。</p>}>
       <div className="flex gap-2 px-4 pt-4">
         {(
           [
@@ -159,27 +159,27 @@ export function AttentionLab() {
 }
 
 export function TokenizerLab() {
-  const word = "deadtime";
-  const pieces = ["dead", "time"];
+  const word = "bookkeeper";
+  const pieces = ["book", "keeper"];
   const letters = word.split("");
-  const mark = "d";
+  const mark = "e";
   const rInLetters = letters.filter((letter) => letter === mark).length;
   const rInPieces = pieces.reduce((total, piece) => total + piece.split("").filter((letter) => letter === mark).length, 0);
   return (
-    <LabFrame title="模型看见的不是字母" footer={<p>人按字母能数出 {rInLetters} 个 d。若模型的一步是整块 token，「dead」内部的 d 没有单独占一步，它就会把时序参数数错。这是示意词表，不是某一家的真实切分。</p>}>
+    <LabFrame title="模型看见的不是字母" footer={<p>人按字母能数出 {rInLetters} 个 e。若模型的一步是整块 token，「keeper」内部的 e 没有单独占一步，它就会把字母数错。这是示意词表，不是某一家的真实切分。</p>}>
       <div className="grid gap-4 p-4 sm:grid-cols-2">
         <div>
           <p className="text-xs text-ink/50">字母</p>
           <div className="mt-2 flex flex-wrap gap-1">
             {letters.map((letter, index) => (
-              <span key={`${letter}-${index}`} className={`rounded px-2 py-1 font-mono text-sm ${letter === "d" ? "bg-copper text-paper" : "bg-panel"}`}>
+              <span key={`${letter}-${index}`} className={`rounded px-2 py-1 font-mono text-sm ${letter === "e" ? "bg-copper text-paper" : "bg-panel"}`}>
                 {letter}
               </span>
             ))}
           </div>
         </div>
         <div>
-          <p className="text-xs text-ink/50">示意切分 · 块里仍有 {rInPieces} 个 d，但它们不各自占一步</p>
+          <p className="text-xs text-ink/50">示意切分 · 块里仍有 {rInPieces} 个 e，但它们不各自占一步</p>
           <div className="mt-2 flex flex-wrap gap-1">
             {pieces.map((piece) => (
               <span key={piece} className="rounded bg-ink px-2 py-1 font-mono text-sm text-paper">
@@ -195,9 +195,9 @@ export function TokenizerLab() {
 
 export function MoeLab() {
   const experts = ["语法", "代码", "算术", "翻译", "对话", "检索", "格式", "安全"];
-  const [token, setToken] = useState("改 PWM");
+  const [token, setToken] = useState("改标题");
   const routes: Record<string, number[]> = {
-    "改 PWM": [1, 4],
+    "改标题": [1, 4],
     "翻译这句": [3, 4],
     "1+2": [2, 4],
   };
