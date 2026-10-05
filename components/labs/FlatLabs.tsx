@@ -282,28 +282,32 @@ export function ContextMeterLab() {
 }
 
 const mcpSteps = [
-  { at: "Host", text: "模型决定：列出串口，不要执行别的命令。" },
-  { at: "Client", text: "客户端把这个意图包成一次 tools/call。" },
-  { at: "Server", text: "服务器只做它声明过的那件事，返回端口名字列表。" },
-  { at: "Host", text: "结构化结果回到上下文。模型还没被允许去写寄存器。" },
+  { at: "Skill", text: "技能先选流程：先把需求问清，再调用工具，最后把差异交给人看。" },
+  { at: "Host", text: "宿主把当前步骤交给模型。模型决定：读取清单，不要直接改内容。" },
+  { at: "Client", text: "客户端把意图包成一次 tools/call，并把参数和权限边界带上。" },
+  { at: "Server", text: "服务器只做它声明过的那件事，返回结构化结果或错误。" },
+  { at: "Host", text: "结果回到上下文，技能推动下一步。模型还没被允许跳过确认。" },
 ];
 
 export function McpFlowLab() {
   const [step, setStep] = useState(0);
   return (
     <LabFrame
-      title="一次工具调用"
+      title="Skill 写剧本，MCP 提供插座"
       footer={
-        <button type="button" className="rounded-full bg-ink px-4 py-1.5 text-paper" onClick={() => setStep((value) => (value + 1) % mcpSteps.length)}>
-          传递下一跳
-        </button>
+        <div className="flex items-center justify-between gap-3">
+          <p>Skill 决定先做什么；MCP 决定哪些工具真的能被调用。</p>
+          <button type="button" className="shrink-0 rounded-full bg-ink px-4 py-1.5 text-paper" onClick={() => setStep((value) => (value + 1) % mcpSteps.length)}>
+            下一跳
+          </button>
+        </div>
       }
     >
-      <div className="grid gap-3 p-4 md:grid-cols-3">
-        {["Host", "Client", "Server"].map((name, index) => (
+      <div className="grid gap-3 p-4 sm:grid-cols-2 lg:grid-cols-4">
+        {["Skill", "Host", "Client", "Server"].map((name, index) => (
           <div key={name} className={`rounded-xl border p-3 ${mcpSteps[step].at === name ? "border-copper" : "border-line"}`}>
             <p className="font-mono text-xs text-copper">{name}</p>
-            <p className="mt-2 text-sm leading-6">{index === 0 ? "模型和对话住在这里" : index === 1 ? "负责协议，不负责发明新权限" : "只暴露声明过的工具、资源和提示"}</p>
+            <p className="mt-2 text-sm leading-6">{index === 0 ? "流程说明：触发条件、顺序、完成标准" : index === 1 ? "模型和对话住在这里" : index === 2 ? "负责协议，不负责发明新权限" : "只暴露声明过的工具、资源和提示"}</p>
           </div>
         ))}
       </div>
@@ -316,8 +320,8 @@ export function McpFlowLab() {
 
 const skillPreview = {
   name: "review-diff",
-  description: "在改动将要留下时，按风险而不是按行数审查差异。",
-  body: "先读差异的意图，再核对边界条件、单位和失败路径。不要在这一步重写设计。完成的标准是：每条意见都能指回具体改动。",
+  description: "在改动将要留下时，按风险而不是按字数审查结果。",
+  body: "先读这次改动想解决什么，再核对遗漏、边界和失败路径。不要在这一步顺手重做整份方案。完成的标准是：每条意见都能指回具体改动。",
 };
 
 export function SkillCardLab() {
@@ -337,26 +341,131 @@ export function SkillCardLab() {
 }
 
 const catalog = [
-  { name: "ask-matt", use: "先问该用哪条技能，而不是直接开写。" },
-  { name: "grill-with-docs", use: "把领域里的词问清楚，写进项目自己的说明。" },
-  { name: "to-tickets", use: "把一段计划切成有先后的小票。" },
-  { name: "tdd", use: "先有失败的检查，再写让它通过的改动。" },
-  { name: "implement", use: "按票推进，收尾前做一次审查。" },
-  { name: "code-review", use: "看差异是否兑现了当初的意图。" },
-  { name: "wayfinder", use: "大到一次对话装不下的工作，先有一张共享的决策图。" },
+  {
+    name: "grill-me",
+    kind: "手动触发",
+    stage: "先对齐",
+    use: "在动手前连续追问，把目标、边界和取舍问到没有大分叉。",
+    output: "一份已经说清楚的方案",
+    avoid: "不要让它替你写实现计划。",
+    href: "https://github.com/mattpocock/skills/tree/main/skills/productivity/grill-me",
+  },
+  {
+    name: "grill-with-docs",
+    kind: "手动触发",
+    stage: "先对齐",
+    use: "一边提问，一边把项目术语、词汇表和重要决定写进文档。",
+    output: "GLOSSARY.md / ADR",
+    avoid: "不要把临时聊天原样堆进文档。",
+    href: "https://github.com/mattpocock/skills/tree/main/skills/engineering/grill-with-docs",
+  },
+  {
+    name: "to-spec",
+    kind: "手动触发",
+    stage: "切成工作",
+    use: "把当前对话整理成一份规格，并交给 issue tracker。",
+    output: "可追踪的 spec",
+    avoid: "不要凭空补出没有讨论过的需求。",
+    href: "https://github.com/mattpocock/skills/tree/main/skills/engineering/to-spec",
+  },
+  {
+    name: "to-tickets",
+    kind: "手动触发",
+    stage: "切成工作",
+    use: "把计划切成能独立验收的小票，并写清谁挡住谁。",
+    output: "带依赖关系的 tickets",
+    avoid: "不要把一层层的文件任务伪装成可交付切片。",
+    href: "https://github.com/mattpocock/skills/tree/main/skills/engineering/to-tickets",
+  },
+  {
+    name: "implement",
+    kind: "手动触发",
+    stage: "做出改动",
+    use: "从已准备好的 spec 或小票开始实现，按约定的缝推进。",
+    output: "一条可验证的改动",
+    avoid: "不要绕过阻塞关系，一口气吞下整张大票。",
+    href: "https://github.com/mattpocock/skills/tree/main/skills/engineering/implement",
+  },
+  {
+    name: "tdd",
+    kind: "自动可触发",
+    stage: "建立反馈",
+    use: "用红、绿、重构的小循环，让代理每一步都看见反馈。",
+    output: "失败测试 → 通过测试",
+    avoid: "不要为了绿色测试牺牲真正的行为。",
+    href: "https://github.com/mattpocock/skills/tree/main/skills/engineering/tdd",
+  },
+  {
+    name: "diagnosing-bugs",
+    kind: "自动可触发",
+    stage: "建立反馈",
+    use: "先复现和缩小问题，再假设、加观测、修复并补回归测试。",
+    output: "最小复现 + 回归检查",
+    avoid: "不要看到一个可疑行就立刻改掉。",
+    href: "https://github.com/mattpocock/skills/tree/main/skills/engineering/diagnosing-bugs",
+  },
+  {
+    name: "code-review",
+    kind: "自动可触发",
+    stage: "留下之前",
+    use: "分别检查工程规范和原始 spec，确认差异真的兑现了意图。",
+    output: "按风险排序的 review",
+    avoid: "不要在审查阶段偷偷扩大需求。",
+    href: "https://github.com/mattpocock/skills/tree/main/skills/engineering/code-review",
+  },
+  {
+    name: "wayfinder",
+    kind: "手动触发",
+    stage: "超长任务",
+    use: "把超过一次会话容量的大工作整理成共享的决策地图。",
+    output: "一张可以逐项清掉的地图",
+    avoid: "不要用它替代一个已经足够小的 ticket。",
+    href: "https://github.com/mattpocock/skills/tree/main/skills/engineering/wayfinder",
+  },
 ];
 
 export function SkillCatalogLab() {
   const [name, setName] = useState(catalog[0].name);
   const current = catalog.find((item) => item.name === name) ?? catalog[0];
+  const stages = [...new Set(catalog.map((item) => item.stage))];
   return (
-    <LabFrame title="一套会先对齐再动手的技能" footer={<p>{current.use} 安装可以走 Claude Code 的插件，也可以把可编辑的文件复制进仓库。两套一起装，技能会重复出现。</p>}>
-      <div className="flex flex-wrap gap-2 p-4">
-        {catalog.map((item) => (
-          <button key={item.name} type="button" onClick={() => setName(item.name)} className={`rounded-full px-3 py-1 font-mono text-xs ${name === item.name ? "bg-ink text-paper" : "border border-line"}`}>
-            {item.name}
-          </button>
-        ))}
+    <LabFrame title="从需求到审查的一条技能链" hint="点击技能，看它负责哪一段" footer={<p>{current.use} 安装可以走 Claude Code 插件，也可以用 npx skills 复制成仓库里的普通文件；两套一起装会重复。</p>}>
+      <div className="grid gap-4 p-4 lg:grid-cols-[1.25fr_0.75fr]">
+        <div className="space-y-3">
+          {stages.map((stage) => (
+            <div key={stage}>
+              <p className="mb-2 font-mono text-[10px] tracking-[0.18em] text-copper">{stage}</p>
+              <div className="flex flex-wrap gap-2">
+                {catalog.filter((item) => item.stage === stage).map((item) => (
+                  <button key={item.name} type="button" onClick={() => setName(item.name)} className={`rounded-full px-3 py-1.5 font-mono text-xs transition ${name === item.name ? "bg-ink text-paper" : "border border-line bg-paper hover:border-copper"}`}>
+                    {item.name}
+                  </button>
+                ))}
+              </div>
+            </div>
+          ))}
+          <div className="rounded-xl border border-dashed border-copper/50 bg-sand p-3 text-sm leading-6">
+            <span className="font-mono text-xs text-copper">MCP 插座</span>
+            <p className="mt-1">文件、GitHub、Linear、浏览器等工具由 MCP 提供；技能只规定什么时候调用、先后顺序和完成标准。</p>
+          </div>
+        </div>
+        <div className="rounded-xl bg-ink p-4 text-paper">
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              <p className="font-mono text-xs text-[#e7c7a4]">{current.stage}</p>
+              <p className="mt-2 font-mono text-lg">/{current.name}</p>
+            </div>
+            <span className="rounded-full border border-paper/20 px-2 py-1 font-mono text-[10px] text-paper/70">{current.kind}</span>
+          </div>
+          <p className="mt-5 text-sm leading-6 text-paper/85">{current.use}</p>
+          <div className="mt-5 space-y-3 border-t border-paper/15 pt-3 text-xs">
+            <p><span className="text-[#e7c7a4]">产出：</span>{current.output}</p>
+            <p><span className="text-[#e7c7a4]">别拿它做：</span>{current.avoid}</p>
+          </div>
+          <a href={current.href} target="_blank" rel="noreferrer" className="mt-5 inline-block text-xs text-[#e7c7a4] underline underline-offset-4">
+            查看原始 SKILL.md →
+          </a>
+        </div>
       </div>
     </LabFrame>
   );

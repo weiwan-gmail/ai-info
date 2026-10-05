@@ -1,8 +1,20 @@
+"use client";
+
 import Link from "next/link";
+import { useEffect, useRef } from "react";
 
 export type NavItem = { href: string; label: string; group?: string };
 
 export function SideNav({ items, current, title }: { items: NavItem[]; current: string; title: string }) {
+  const itemRefs = useRef<Record<string, HTMLAnchorElement | null>>({});
+
+  useEffect(() => {
+    const frame = window.requestAnimationFrame(() => {
+      itemRefs.current[current]?.scrollIntoView({ block: "nearest", inline: "nearest" });
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, [current]);
+
   const groups: { name: string; items: NavItem[] }[] = [];
   for (const item of items) {
     const name = item.group ?? "";
@@ -20,7 +32,14 @@ export function SideNav({ items, current, title }: { items: NavItem[]; current: 
               const active = item.href === current;
               return (
                 <li key={item.href}>
-                  <Link href={item.href} className={`block rounded-md px-2 py-0.5 text-[13px] leading-5 ${active ? "bg-ink text-paper" : "text-ink/75 hover:bg-panel"}`}>
+                  <Link
+                    ref={(node) => {
+                      itemRefs.current[item.href] = node;
+                    }}
+                    href={item.href}
+                    aria-current={active ? "page" : undefined}
+                    className={`block rounded-md px-2 py-0.5 text-[13px] leading-5 ${active ? "bg-ink text-paper" : "text-ink/75 hover:bg-panel"}`}
+                  >
                     {item.label}
                   </Link>
                 </li>

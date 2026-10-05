@@ -20,6 +20,7 @@ export const cloudChapters = [
     beside: "和 Muse、Cue 差在哪",
     neighbor: "Muse 强调一个人一台虚拟机和出站审批。Cue 让每个代理更像有自己的电话和邮箱。Grok Bot 强调角色，隔离粒度是用户：再开一个 Bot，电脑还是那一台。",
     switchWhen: "你需要的是仓库差异和测试，回到编程代理。你需要每个代理一张对外的身份证，去看 Cue，并接受它的邀请和未知配额。",
+    more: [links([{ href: "https://docs.x.ai/grok-bot/overview", label: "xAI 官方：Grok Bot" }])],
   }),
   tool({
     slug: "muse",
@@ -40,6 +41,7 @@ export const cloudChapters = [
     beside: "和 Grok Bot、Cue 差在哪",
     neighbor: "Grok Bot 用角色分工，但同一用户的 Bot 共享一台云电脑。Cue 用每个代理的邮箱和电话换隔离。Muse 把隔离写在虚拟机和出站哨兵上。",
     switchWhen: "你不在它开放的地区，直接换章节，不要先研究怎样让它以为你在。你的任务是改代码，它也不是那一章。",
+    more: [links([{ href: "https://ai.meta.com/muse", label: "Meta 官方：Muse" }])],
   }),
   tool({
     slug: "manus",
@@ -60,7 +62,7 @@ export const cloudChapters = [
     beside: "和 Cue、元宝、Claude Code 差在哪",
     neighbor: "Cue 给每个代理对外身份。元宝更窄，偏向把任务交成办公文件。Claude Code 改的是你笔记本上的仓库。Manus 的电脑在云上，点网页的机制见 Browser Use。",
     switchWhen: "任务两分钟能在本地代理里做完，就不要为了一台云电脑把资料搬上去。任务要对外发邮件或付款，先看 Cue 的身份和额度是不是你真的需要的。",
-    more: [links([{ href: "/tools/browser-use", label: "点网页的那只手" }, { href: "/tools/cue", label: "个人代理是另一章" }])],
+    more: [links([{ href: "/tools/browser-use", label: "点网页的那只手" }, { href: "/tools/cue", label: "个人代理是另一章" }, { href: "https://help.manus.im/en/articles/15392111-what-is-the-cloud-computer", label: "Manus 官方：Cloud Computer" }])],
   }),
   tool({
     slug: "cue",
@@ -81,6 +83,7 @@ export const cloudChapters = [
     beside: "和 Manus、Grok Bot 差在哪",
     neighbor: "Manus 的云电脑为任务服务。Grok Bot 的电脑按用户共享，再开一个 Bot 不是新的隔离。Cue 把邮箱、电话和钱包也各复制一份。三者不要因为都在云上就合成同一个远程 Agent。",
     switchWhen: "你不需要对外身份和支付，用 Manus 或本地代理就够。邀请和地区没开放，就当这章不存在，不要把未知配额写成零或无限。",
+    more: [links([{ href: "https://cue.im/", label: "Cue 官方入口" }])],
   }),
   tool({
     slug: "yuanbao",
@@ -101,7 +104,7 @@ export const cloudChapters = [
     beside: "和豆包、WorkBuddy 差在哪",
     neighbor: "豆包收费版要单算创作额度和存储。WorkBuddy 改代码，有 IDE 和 CLI。元宝交幻灯片、文档和表格。三章都写着国内产品，做的不是同一件事。",
     switchWhen: "产出必须进 git，换编程代理。产出是图片和视频额度，看豆包。产出是文档并且可以放进它的环境，留在这里。",
-    more: [links([{ href: "/tools/browser-use", label: "云浏览器里的点击" }, { href: "/tools/workbuddy", label: "编程用 WorkBuddy" }])],
+    more: [links([{ href: "/tools/browser-use", label: "云浏览器里的点击" }, { href: "/tools/workbuddy", label: "编程用 WorkBuddy" }, { href: "https://yuanbao.tencent.com/", label: "腾讯元宝官方入口" }])],
   }),
 ];
 
