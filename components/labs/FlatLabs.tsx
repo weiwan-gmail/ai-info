@@ -116,22 +116,22 @@ function Gate({ label, value, onChange }: { label: string; value: number; onChan
 }
 
 const heads = {
-  referent: [0.62, 0.08, 0.05, 0.07, 0.04, 0.14],
-  action: [0.06, 0.28, 0.05, 0.46, 0.09, 0.06],
+  referent: [0.62, 0.06, 0.09, 0.04, 0.05, 0.14],
+  state: [0.07, 0.04, 0.06, 0.05, 0.18, 0.6],
 };
 
 export function AttentionLab() {
-  const tokens = ["经理", "离开", "他", "接手", "会议", "记录"];
+  const tokens = ["幼狮", "没有", "过河", "它", "太", "累"];
   const [head, setHead] = useState<keyof typeof heads>("referent");
-  const [selected, setSelected] = useState(2);
+  const [selected, setSelected] = useState(3);
   const weights = heads[head];
   return (
-    <LabFrame title="他在看谁" hint="点一个词，再换一个头" footer={<p>指代头把「他」拉向经理。动作头把权重分给「离开」和「接手」。一个头忙不过来，所以有多头。</p>}>
+    <LabFrame title="它在看谁" hint="点一个词，再换一个头" footer={<p>指代头把「它」拉向幼狮。状态头把权重分给「累」。一个头忙不过来，所以有多头。</p>}>
       <div className="flex gap-2 px-4 pt-4">
         {(
           [
             ["referent", "指代头"],
-            ["action", "动作头"],
+            ["state", "状态头"],
           ] as const
         ).map(([id, label]) => (
           <button key={id} type="button" onClick={() => setHead(id)} className={`rounded-full px-3 py-1 text-sm ${head === id ? "bg-ink text-paper" : "border border-line"}`}>
@@ -159,27 +159,27 @@ export function AttentionLab() {
 }
 
 export function TokenizerLab() {
-  const word = "bookkeeper";
-  const pieces = ["book", "keeper"];
+  const word = "cranberry";
+  const pieces = ["cran", "berry"];
   const letters = word.split("");
-  const mark = "e";
+  const mark = "r";
   const rInLetters = letters.filter((letter) => letter === mark).length;
   const rInPieces = pieces.reduce((total, piece) => total + piece.split("").filter((letter) => letter === mark).length, 0);
   return (
-    <LabFrame title="模型看见的不是字母" footer={<p>人按字母能数出 {rInLetters} 个 e。若模型的一步是整块 token，「keeper」内部的 e 没有单独占一步，它就会把字母数错。这是示意词表，不是某一家的真实切分。</p>}>
+    <LabFrame title="模型看见的不是字母" footer={<p>人按字母能数出 {rInLetters} 个 r。若模型的一步是整块 token，「berry」内部的 r 没有单独占一步，它就会把字母数错。这是示意词表，不是某一家的真实切分。</p>}>
       <div className="grid gap-4 p-4 sm:grid-cols-2">
         <div>
           <p className="text-xs text-ink/50">字母</p>
           <div className="mt-2 flex flex-wrap gap-1">
             {letters.map((letter, index) => (
-              <span key={`${letter}-${index}`} className={`rounded px-2 py-1 font-mono text-sm ${letter === "e" ? "bg-copper text-paper" : "bg-panel"}`}>
+              <span key={`${letter}-${index}`} className={`rounded px-2 py-1 font-mono text-sm ${letter === mark ? "bg-copper text-paper" : "bg-panel"}`}>
                 {letter}
               </span>
             ))}
           </div>
         </div>
         <div>
-          <p className="text-xs text-ink/50">示意切分 · 块里仍有 {rInPieces} 个 e，但它们不各自占一步</p>
+          <p className="text-xs text-ink/50">示意切分 · 块里仍有 {rInPieces} 个 r，但它们不各自占一步</p>
           <div className="mt-2 flex flex-wrap gap-1">
             {pieces.map((piece) => (
               <span key={piece} className="rounded bg-ink px-2 py-1 font-mono text-sm text-paper">
@@ -194,11 +194,11 @@ export function TokenizerLab() {
 }
 
 export function MoeLab() {
-  const experts = ["语法", "代码", "算术", "翻译", "对话", "检索", "格式", "安全"];
-  const [token, setToken] = useState("改标题");
+  const experts = ["叙事", "报修", "算术", "翻译", "对话", "检索", "格式", "安全"];
+  const [token, setToken] = useState("幼狮过河");
   const routes: Record<string, number[]> = {
-    "改标题": [1, 4],
-    "翻译这句": [3, 4],
+    "幼狮过河": [0, 4],
+    "报修楼道灯": [1, 4],
     "1+2": [2, 4],
   };
   const active = routes[token];
