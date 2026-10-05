@@ -5,6 +5,7 @@ import { fieldChapters } from "./field";
 import { intlChapters } from "./intl";
 import { modelChapters } from "./models";
 import { pairingChapter } from "./pairing";
+import { priceCards } from "./prices";
 import { sheets } from "./sheets";
 
 export const groups: ToolGroup[] = [
@@ -51,7 +52,7 @@ export const toolChapters = [
 ].map((chapter) => ({
   ...chapter,
   updated: "2026-10-05",
-  blocks: [...chapter.blocks, ...(sheets[chapter.slug] ?? [])],
+  blocks: [...(priceCards[chapter.slug] ?? []), ...chapter.blocks, ...(sheets[chapter.slug] ?? [])],
 }));
 
 export function getTool(slug: string) {
