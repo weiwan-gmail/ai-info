@@ -14,6 +14,7 @@ export type Block =
   | { type: "links"; items: { href: string; label: string }[] }
   | { type: "table"; headers: string[]; rows: string[][] }
   | { type: "figure"; src: string; alt: string; caption?: string }
+  | { type: "mermaid"; chart: string; caption?: string }
   | WidgetBlock;
 
 export type Article = {

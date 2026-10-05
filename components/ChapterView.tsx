@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { MermaidView } from "./MermaidView";
 import { assetPath } from "@/lib/paths";
 import type { Article, Block } from "@/lib/types";
 import { Formula } from "./Formula";
@@ -90,6 +91,7 @@ function Blocks({ blocks }: { blocks: Block[] }) {
               {block.caption ? <figcaption className="border-t border-line px-4 py-2 text-sm text-ink/60">{block.caption}</figcaption> : null}
             </figure>
           );
+        if (block.type === "mermaid") return <MermaidView key={index} chart={block.chart} caption={block.caption} />;
         if (block.type === "widget") return <WidgetHost key={index} id={block.id} props={block.props} />;
         return null;
       })}

@@ -51,8 +51,11 @@ export const toolChapters = [
   ...fieldChapters,
 ].map((chapter) => ({
   ...chapter,
-  updated: "2026-10-05",
-  blocks: [...(priceCards[chapter.slug] ?? []), ...chapter.blocks, ...(sheets[chapter.slug] ?? [])],
+  updated: chapter.updated || "2026-10-05",
+  blocks:
+    chapter.group === "field"
+      ? chapter.blocks
+      : [...(priceCards[chapter.slug] ?? []), ...chapter.blocks, ...(sheets[chapter.slug] ?? [])],
 }));
 
 export function getTool(slug: string) {

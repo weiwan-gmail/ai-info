@@ -15,6 +15,7 @@ import {
   SoftmaxLab,
   TokenizerLab,
 } from "./labs/FlatLabs";
+import { BenchSvg, BoardSvg, LoopSvg, ShellSvg } from "./labs/PracticeSvgs";
 import {
   AdvisorLab,
   EditorLoop,
@@ -52,6 +53,10 @@ export function WidgetHost({ id, props }: { id: string; props?: Record<string, s
   if (id === "cloud") return <CloudBoundary highlight={props?.highlight} />;
   if (id === "hands") return <HandsStepper initial={props?.initial} />;
   if (id === "field") return <FieldPipeline start={props?.start} />;
+  if (id === "loop-svg") return <LoopSvg />;
+  if (id === "board-svg") return <BoardSvg />;
+  if (id === "shell-svg") return <ShellSvg />;
+  if (id === "bench-svg") return <BenchSvg />;
   if (id === "layers") return <LayerStack items={props?.items} active={props?.active} />;
   return null;
 }
