@@ -24,12 +24,12 @@ export default async function LessonPage({ params }: { params: Promise<{ slug: s
   return (
     <main className="mx-auto grid max-w-6xl gap-8 px-5 py-10 md:grid-cols-[220px_1fr]">
       <SideNav
-        title="十二课"
+        title="课程"
         current={`/learn/${lesson.slug}`}
         items={lessons.map((item) => ({
           href: `/learn/${item.slug}`,
-          label: item.title,
-          group: Number(item.kicker.slice(0, 2)) <= 6 ? "模型" : Number(item.kicker.slice(0, 2)) <= 9 ? "智能体" : "MCP 与技能",
+          label: `${item.kicker} ${item.title}`,
+          group: item.track,
         }))}
       />
       <ChapterView

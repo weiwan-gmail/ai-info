@@ -54,6 +54,41 @@ function Blocks({ blocks }: { blocks: Block[] }) {
               ))}
             </p>
           );
+        if (block.type === "table")
+          return (
+            <div key={index} className="my-6 overflow-x-auto rounded-xl border border-line">
+              <table className="w-full min-w-[36rem] border-collapse text-sm">
+                <thead>
+                  <tr className="bg-panel text-left">
+                    {block.headers.map((header) => (
+                      <th key={header} className="px-3 py-2 font-medium">
+                        {header}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {block.rows.map((row, rowIndex) => (
+                    <tr key={rowIndex} className="border-t border-line">
+                      {row.map((cell, cellIndex) => (
+                        <td key={cellIndex} className="px-3 py-2 align-top">
+                          {cell}
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          );
+        if (block.type === "figure")
+          return (
+            <figure key={index} className="my-6 overflow-hidden rounded-2xl border border-line bg-sand">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={block.src} alt={block.alt} className="max-h-[640px] w-full bg-white object-contain object-top" />
+              {block.caption ? <figcaption className="border-t border-line px-4 py-2 text-sm text-ink/60">{block.caption}</figcaption> : null}
+            </figure>
+          );
         if (block.type === "widget") return <WidgetHost key={index} id={block.id} props={block.props} />;
         return null;
       })}

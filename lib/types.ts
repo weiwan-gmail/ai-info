@@ -12,6 +12,8 @@ export type Block =
   | { type: "callout"; title: string; text: string }
   | { type: "steps"; items: { title: string; body: string }[] }
   | { type: "links"; items: { href: string; label: string }[] }
+  | { type: "table"; headers: string[]; rows: string[][] }
+  | { type: "figure"; src: string; alt: string; caption?: string }
   | WidgetBlock;
 
 export type Article = {
@@ -20,6 +22,7 @@ export type Article = {
   title: string;
   question: string;
   summary: string;
+  track?: string;
   blocks: Block[];
 };
 

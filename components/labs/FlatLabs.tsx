@@ -42,7 +42,7 @@ export function MatrixLab() {
 
 export function SoftmaxLab() {
   const [logits, setLogits] = useState([1.2, 0.4, -0.6]);
-  const labels = ["猫", "老虎", "金鱼"];
+  const labels = ["正常", "过流", "缺相"];
   const exps = logits.map((value) => Math.exp(value));
   const sum = exps.reduce((total, value) => total + value, 0);
   return (
@@ -61,7 +61,7 @@ export function SoftmaxLab() {
 }
 
 export function NgramLab() {
-  const text = "今天天气今天真好";
+  const text = "设置死区设置死区时间";
   const counts = new Map<string, number>();
   for (let i = 0; i < text.length - 1; i += 1) {
     const key = text.slice(i, i + 2);
@@ -69,8 +69,9 @@ export function NgramLab() {
   }
   const rows = [...counts.entries()].sort((a, b) => b[1] - a[1]);
   return (
-    <LabFrame title="只靠数数的语言模型" footer={<p>「今天」出现了两次，所以它比没见过的搭配更像下一截。词表一大，绝大多数搭配的计数是零，这就是后来要绕开的稀疏。</p>}>
-      <p className="px-4 pt-4 font-serif text-lg">{text}</p>
+    <LabFrame title="只靠数数的语言模型" footer={<p>「设置」「死区」这些相邻两字出现了不止一次，所以它们比没见过的搭配更像下一截。指令种类一大，绝大多数搭配的计数是零，这就是后来要绕开的稀疏。</p>}>
+      <p className="px-4 pt-4 font-serif text-lg">串口里反复出现的是「设置死区」，不是语法。</p>
+      <p className="px-4 font-mono text-sm">{text}</p>
       <ul className="grid gap-2 p-4 sm:grid-cols-2">
         {rows.map(([gram, count]) => (
           <li key={gram} className="flex items-center justify-between rounded-lg border border-line px-3 py-2 text-sm">
@@ -120,12 +121,12 @@ const heads = {
 };
 
 export function AttentionLab() {
-  const tokens = ["小猫", "追着", "它", "跑", "进", "院子"];
+  const tokens = ["上管", "发热", "它", "关断", "续流", "二极管"];
   const [head, setHead] = useState<keyof typeof heads>("referent");
   const [selected, setSelected] = useState(2);
   const weights = heads[head];
   return (
-    <LabFrame title="它在看谁" hint="点一个词，再换一个头" footer={<p>指代头把「它」拉向「小猫」。动作头把权重分给「追着」和「跑」。一个头忙不过来，所以有多头。</p>}>
+    <LabFrame title="它在看谁" hint="点一个词，再换一个头" footer={<p>指代头把「它」拉向上管。动作头把权重分给「关断」和「续流」。一个头忙不过来，所以有多头。</p>}>
       <div className="flex gap-2 px-4 pt-4">
         {(
           [
@@ -158,26 +159,27 @@ export function AttentionLab() {
 }
 
 export function TokenizerLab() {
-  const word = "strawberry";
-  const pieces = ["st", "raw", "berry"];
+  const word = "deadtime";
+  const pieces = ["dead", "time"];
   const letters = word.split("");
-  const rInLetters = letters.filter((letter) => letter === "r").length;
-  const rInPieces = pieces.reduce((total, piece) => total + piece.split("").filter((letter) => letter === "r").length, 0);
+  const mark = "d";
+  const rInLetters = letters.filter((letter) => letter === mark).length;
+  const rInPieces = pieces.reduce((total, piece) => total + piece.split("").filter((letter) => letter === mark).length, 0);
   return (
-    <LabFrame title="模型看见的不是字母" footer={<p>人按字母数出 {rInLetters} 个 r。若模型的一步是在整块 token 上预测，而某块内部的 r 没有单独站出来，它就会数错。这是示意词表，不是某一家的真实切分。</p>}>
+    <LabFrame title="模型看见的不是字母" footer={<p>人按字母能数出 {rInLetters} 个 d。若模型的一步是整块 token，「dead」内部的 d 没有单独占一步，它就会把时序参数数错。这是示意词表，不是某一家的真实切分。</p>}>
       <div className="grid gap-4 p-4 sm:grid-cols-2">
         <div>
           <p className="text-xs text-ink/50">字母</p>
           <div className="mt-2 flex flex-wrap gap-1">
             {letters.map((letter, index) => (
-              <span key={`${letter}-${index}`} className={`rounded px-2 py-1 font-mono text-sm ${letter === "r" ? "bg-copper text-paper" : "bg-panel"}`}>
+              <span key={`${letter}-${index}`} className={`rounded px-2 py-1 font-mono text-sm ${letter === "d" ? "bg-copper text-paper" : "bg-panel"}`}>
                 {letter}
               </span>
             ))}
           </div>
         </div>
         <div>
-          <p className="text-xs text-ink/50">示意切分 · 块里仍有 {rInPieces} 个 r，但它们不各自占一步</p>
+          <p className="text-xs text-ink/50">示意切分 · 块里仍有 {rInPieces} 个 d，但它们不各自占一步</p>
           <div className="mt-2 flex flex-wrap gap-1">
             {pieces.map((piece) => (
               <span key={piece} className="rounded bg-ink px-2 py-1 font-mono text-sm text-paper">

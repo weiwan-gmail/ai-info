@@ -9,9 +9,9 @@ import { LabFrame } from "./LabFrame";
 type Word = { id: string; label: string; color: string; at: [number, number, number] };
 
 const initial: Word[] = [
-  { id: "cat", label: "猫", color: "#9a4e24", at: [1.15, 0.72, 0.25] },
-  { id: "tiger", label: "老虎", color: "#c47a45", at: [1.55, 1.05, 0.15] },
-  { id: "fish", label: "金鱼", color: "#3d6b8c", at: [-1.35, -0.55, 0.7] },
+  { id: "cat", label: "相电流", color: "#9a4e24", at: [1.15, 0.72, 0.25] },
+  { id: "tiger", label: "母线纹波", color: "#c47a45", at: [1.55, 1.05, 0.15] },
+  { id: "fish", label: "机壳温度", color: "#3d6b8c", at: [-1.35, -0.55, 0.7] },
 ];
 
 function cosine(a: number[], b: number[]) {
@@ -122,8 +122,8 @@ export function VectorLab() {
 function Similarity({ catTiger, catFish }: { catTiger: number; catFish: number }) {
   return (
     <div className="grid gap-2 sm:grid-cols-2">
-      <Meter label="猫 · 老虎" value={catTiger} />
-      <Meter label="猫 · 金鱼" value={catFish} />
+      <Meter label="相电流 · 母线纹波" value={catTiger} />
+      <Meter label="相电流 · 机壳温度" value={catFish} />
     </div>
   );
 }

@@ -5,6 +5,7 @@ import { fieldChapters } from "./field";
 import { intlChapters } from "./intl";
 import { modelChapters } from "./models";
 import { pairingChapter } from "./pairing";
+import { sheets } from "./sheets";
 
 export const groups: ToolGroup[] = [
   { id: "intl", title: "国际助手", question: "改仓库时，代理住在哪一层？" },
@@ -47,7 +48,11 @@ export const toolChapters = [
   ...cloudChapters,
   ...handChapters,
   ...fieldChapters,
-];
+].map((chapter) => ({
+  ...chapter,
+  updated: "2026-10-05",
+  blocks: [...chapter.blocks, ...(sheets[chapter.slug] ?? [])],
+}));
 
 export function getTool(slug: string) {
   return toolChapters.find((chapter) => chapter.slug === slug);

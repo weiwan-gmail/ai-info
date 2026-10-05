@@ -59,7 +59,7 @@ export default function HomePage() {
       </section>
       <section className="mx-auto grid max-w-6xl gap-10 px-5 pb-8 md:grid-cols-[1.2fr_0.8fr]">
         <div>
-          <h2 className="font-serif text-3xl">十二课，按死结排列</h2>
+          <h2 className="font-serif text-3xl">{lessons.length} 课，按死结排列</h2>
           <ol className="mt-6 space-y-3">
             {lessons.map((lesson) => (
               <li key={lesson.slug}>
