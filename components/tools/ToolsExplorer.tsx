@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { groups, pairs, toolChapters } from "@/content/tools";
 import { MindMap } from "./MindMap";
@@ -12,7 +13,10 @@ const tasks = [
   { id: "watch", label: "让代理自己值守", groups: ["cloud", "hands"] },
 ];
 
-export function ToolsExplorer({ focus, mode }: { focus?: string; mode?: string }) {
+export function ToolsExplorer() {
+  const searchParams = useSearchParams();
+  const focus = searchParams.get("focus") ?? undefined;
+  const mode = searchParams.get("mode") ?? undefined;
   const [task, setTask] = useState<string | null>(null);
   const highlight = tasks.find((item) => item.id === task)?.groups ?? [];
   const recent = [...toolChapters]
