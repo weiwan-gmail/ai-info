@@ -61,7 +61,7 @@ export function SoftmaxLab() {
 }
 
 export function NgramLab() {
-  const text = "设置死区设置死区时间";
+  const text = "天气很好天气很好今天";
   const counts = new Map<string, number>();
   for (let i = 0; i < text.length - 1; i += 1) {
     const key = text.slice(i, i + 2);
@@ -69,8 +69,8 @@ export function NgramLab() {
   }
   const rows = [...counts.entries()].sort((a, b) => b[1] - a[1]);
   return (
-    <LabFrame title="只靠数数的语言模型" footer={<p>「设置」「死区」这些相邻两字出现了不止一次，所以它们比没见过的搭配更像下一截。指令种类一大，绝大多数搭配的计数是零，这就是后来要绕开的稀疏。</p>}>
-      <p className="px-4 pt-4 font-serif text-lg">串口里反复出现的是「设置死区」，不是语法。</p>
+    <LabFrame title="只靠数数的语言模型" footer={<p>「天气」「气很」这些相邻两字出现了不止一次，所以它们比没见过的搭配更像下一截。句子种类一大，绝大多数搭配的计数是零，这就是后来要绕开的稀疏。</p>}>
+      <p className="px-4 pt-4 font-serif text-lg">日常文字里反复出现的是「天气很好」，不是语法。</p>
       <p className="px-4 font-mono text-sm">{text}</p>
       <ul className="grid gap-2 p-4 sm:grid-cols-2">
         {rows.map(([gram, count]) => (
@@ -121,12 +121,12 @@ const heads = {
 };
 
 export function AttentionLab() {
-  const tokens = ["幼狮", "没有", "过河", "它", "太", "累"];
+  const tokens = ["小马", "没有", "过河", "它", "太", "累"];
   const [head, setHead] = useState<keyof typeof heads>("referent");
   const [selected, setSelected] = useState(3);
   const weights = heads[head];
   return (
-    <LabFrame title="它在看谁" hint="点一个词，再换一个头" footer={<p>指代头把「它」拉向幼狮。状态头把权重分给「累」。一个头忙不过来，所以有多头。</p>}>
+    <LabFrame title="它在看谁" hint="点一个词，再换一个头" footer={<p>指代头把「它」拉向小马。状态头把权重分给「累」。一个头忙不过来，所以有多头。</p>}>
       <div className="flex gap-2 px-4 pt-4">
         {(
           [
@@ -159,14 +159,14 @@ export function AttentionLab() {
 }
 
 export function TokenizerLab() {
-  const word = "cranberry";
-  const pieces = ["cran", "berry"];
+  const word = "fig";
+  const pieces = ["f", "ig"];
   const letters = word.split("");
-  const mark = "r";
-  const rInLetters = letters.filter((letter) => letter === mark).length;
-  const rInPieces = pieces.reduce((total, piece) => total + piece.split("").filter((letter) => letter === mark).length, 0);
+  const mark = "g";
+  const gInLetters = letters.filter((letter) => letter === mark).length;
+  const gInPieces = pieces.reduce((total, piece) => total + piece.split("").filter((letter) => letter === mark).length, 0);
   return (
-    <LabFrame title="模型看见的不是字母" footer={<p>人按字母能数出 {rInLetters} 个 r。若模型的一步是整块 token，「berry」内部的 r 没有单独占一步，它就会把字母数错。这是示意词表，不是某一家的真实切分。</p>}>
+    <LabFrame title="模型看见的不是字母" footer={<p>人按字母能数出 {gInLetters} 个 g。若模型的一步是整块 token，「ig」内部的 g 没有单独占一步，它就会把字母数错。这是示意词表，不是某一家的真实切分。</p>}>
       <div className="grid gap-4 p-4 sm:grid-cols-2">
         <div>
           <p className="text-xs text-ink/50">字母</p>
@@ -179,7 +179,7 @@ export function TokenizerLab() {
           </div>
         </div>
         <div>
-          <p className="text-xs text-ink/50">示意切分 · 块里仍有 {rInPieces} 个 r，但它们不各自占一步</p>
+          <p className="text-xs text-ink/50">示意切分 · 块里仍有 {gInPieces} 个 g，但它们不各自占一步</p>
           <div className="mt-2 flex flex-wrap gap-1">
             {pieces.map((piece) => (
               <span key={piece} className="rounded bg-ink px-2 py-1 font-mono text-sm text-paper">
@@ -194,11 +194,11 @@ export function TokenizerLab() {
 }
 
 export function MoeLab() {
-  const experts = ["叙事", "报修", "算术", "翻译", "对话", "检索", "格式", "安全"];
-  const [token, setToken] = useState("幼狮过河");
+  const experts = ["叙事", "日程", "算术", "翻译", "对话", "检索", "格式", "安全"];
+  const [token, setToken] = useState("小马过河");
   const routes: Record<string, number[]> = {
-    "幼狮过河": [0, 4],
-    "报修楼道灯": [1, 4],
+    "小马过河": [0, 4],
+    "周末聚餐": [1, 4],
     "1+2": [2, 4],
   };
   const active = routes[token];
