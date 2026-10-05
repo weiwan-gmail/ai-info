@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo } from "react";
+import { sitePath } from "@/lib/paths";
 import type { PairLink, ToolChapter, ToolGroup } from "@/lib/types";
 
 type MapNode = {
@@ -100,7 +101,7 @@ function TreeEdge({ edge, nodes }: { edge: { from: string; to: string }; nodes: 
   if (!from || !to) return null;
   const x = from.x + NODE_W / 2;
   const d = `M ${x} ${from.y + NODE_H} L ${x} ${to.y}`;
-  const href = to.slug ? `/tools/${to.slug}` : `/tools?focus=${to.id}`;
+  const href = sitePath(to.slug ? `/tools/${to.slug}` : `/tools?focus=${to.id}`);
   return (
     <a href={href}>
       <path d={d} stroke="transparent" strokeWidth="12" fill="none" />
@@ -118,7 +119,7 @@ function DashPair({ pair, nodes }: { pair: PairLink; nodes: MapNode[] }) {
   const b = { x: to.x, y: to.y + 11 };
   const d = `M ${a.x} ${a.y} C ${a.x + 24} ${a.y}, ${b.x - 24} ${b.y}, ${b.x} ${b.y}`;
   return (
-    <a href={`/tools/pairing#${pair.anchor}`}>
+    <a href={sitePath(`/tools/pairing#${pair.anchor}`)}>
       <path d={d} stroke="transparent" strokeWidth="10" fill="none" />
       <path d={d} stroke="#9a4e24" strokeWidth="1.2" strokeDasharray="4 4" fill="none" />
     </a>
@@ -139,7 +140,7 @@ function PairEdge({
   const b = { x: to.x, y: to.y + 11 };
   const d = `M ${a.x} ${a.y} C ${(a.x + b.x) / 2} ${a.y}, ${(a.x + b.x) / 2} ${b.y}, ${b.x} ${b.y}`;
   return (
-    <a href={`/tools/pairing#${edge.anchor}`}>
+    <a href={sitePath(`/tools/pairing#${edge.anchor}`)}>
       <path d={d} stroke="transparent" strokeWidth="12" fill="none" />
       <path d={d} stroke="#9a4e24" strokeWidth="1.4" strokeDasharray="5 4" fill="none" />
     </a>
@@ -165,7 +166,7 @@ function MapNodeView({
   const shape = <rect x={node.x} y={node.y} width={width} height={NODE_H} rx="6" fill={fill} stroke={focused ? "#9a4e24" : "#d9cbb6"} strokeWidth={focused ? 2 : 1} />;
   if (node.slug) {
     return (
-      <a href={`/tools/${node.slug}`}>
+      <a href={sitePath(`/tools/${node.slug}`)}>
         {shape}
         {label}
       </a>
@@ -173,14 +174,14 @@ function MapNodeView({
   }
   if (node.kind === "group") {
     return (
-      <a href={`/tools?focus=${node.id}`}>
+      <a href={sitePath(`/tools?focus=${node.id}`)}>
         {shape}
         {label}
       </a>
     );
   }
   return (
-    <a href="/tools">
+    <a href={sitePath("/tools")}>
       {shape}
       {label}
     </a>

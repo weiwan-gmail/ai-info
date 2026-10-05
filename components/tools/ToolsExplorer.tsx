@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { groups, pairs, toolChapters } from "@/content/tools";
+import { sitePath } from "@/lib/paths";
 import { MindMap } from "./MindMap";
 
 const tasks = [
@@ -56,7 +57,7 @@ export function ToolsExplorer() {
         <div className="mt-3 grid grid-cols-2 gap-x-4 gap-y-3 sm:grid-cols-4 xl:grid-cols-7">
           {groups.map((group) => (
             <section key={group.id}>
-              <a href={`/tools?focus=${group.id}`} className="text-sm font-medium hover:text-copper">
+              <a href={sitePath(`/tools?focus=${group.id}`)} className="text-sm font-medium hover:text-copper">
                 {group.title}
               </a>
               <ul className="mt-1 space-y-0.5">

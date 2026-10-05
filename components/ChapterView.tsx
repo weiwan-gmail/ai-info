@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { assetPath } from "@/lib/paths";
 import type { Article, Block } from "@/lib/types";
 import { Formula } from "./Formula";
 import { WidgetHost } from "./WidgetHost";
@@ -85,7 +86,7 @@ function Blocks({ blocks }: { blocks: Block[] }) {
           return (
             <figure key={index} className="my-6 overflow-hidden rounded-2xl border border-line bg-sand">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={block.src} alt={block.alt} className="max-h-[640px] w-full bg-white object-contain object-top" />
+              <img src={assetPath(block.src)} alt={block.alt} className="max-h-[640px] w-full bg-white object-contain object-top" />
               {block.caption ? <figcaption className="border-t border-line px-4 py-2 text-sm text-ink/60">{block.caption}</figcaption> : null}
             </figure>
           );
